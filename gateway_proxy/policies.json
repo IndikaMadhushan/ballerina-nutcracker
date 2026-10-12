@@ -1,0 +1,25 @@
+{
+  "systemParameters": {},
+  "routes": [
+    { "routeKey": "GET /api/v1/health", "policies": [] },
+    {
+      "routeKey": "*",
+      "policies": [
+        {
+          "name": "jwt-auth",
+          "version": "v1",
+          "parameters": {
+            "jwksUri": "http://localhost:9099/jwks.json",
+            "issuers": ["https://issuer.example.com"],
+            "audiences": ["gateway"],
+            "scopeRules": { "anyOf": ["read"] },
+            "claims": {},
+            "claimMappings": { "tenant": "X-Tenant" },
+            "forwardToken": true,
+            "leeway": 60
+          }
+        }
+      ]
+    }
+  ]
+}

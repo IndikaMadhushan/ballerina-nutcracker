@@ -1,0 +1,7 @@
+[package]
+org = "indika"
+name = "gateway_proxy"
+version = "0.1.0"
+
+[build-options]
+observabilityIncluded = true
