@@ -1,0 +1,8 @@
+# Build artifacts and metadata that must not enter the image build context.
+target/
+temp.bir
+.ballerina/
+Dependencies.toml
+.git/
+.gitignore
+*.md

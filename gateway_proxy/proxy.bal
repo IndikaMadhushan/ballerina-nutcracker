@@ -1,8 +1,18 @@
 import ballerina/http;
+import ballerina/os;
+
+// Resolves the upstream base URL: the UPSTREAM_URL env var when set,
+// otherwise the docker-compose service name.
+function resolveUpstreamUrl() returns string {
+    string configuredUrl = os:getEnv(name = "UPSTREAM_URL");
+    if configuredUrl == "" {
+        return "http://mock-backend-service:8688";
+    }
+    return configuredUrl;
+}
 
 // target upstream URL
-// final string UPSTREAM_URL = "http://mock-backend-service:8688";
-final string UPSTREAM_URL = "http://localhost:8688";
+final string UPSTREAM_URL = resolveUpstreamUrl();
 
 // Initialize the HTTP Client
 final http:Client backendClient = check new (UPSTREAM_URL, {

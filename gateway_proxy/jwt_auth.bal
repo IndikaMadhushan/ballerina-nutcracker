@@ -9,6 +9,7 @@
 
 import ballerina/crypto;
 import ballerina/http;
+import ballerina/os;
 
 # allOf/anyOf scope rules (both default to empty = no requirement).
 public type ScopeRules record {|
@@ -238,6 +239,11 @@ function coerceJwtAuthParameters(json rawParameters) returns JwtAuthParameters|e
 
     foreach string paramKey in userParams.keys() {
         paramMap[paramKey] = userParams.get(paramKey);
+    }
+    // JWKS_URI env var wins over the config value (container/deployment override).
+    string jwksOverride = os:getEnv(name = "JWKS_URI");
+    if jwksOverride != "" {
+        paramMap["jwksUri"] = jwksOverride;
     }
     return paramMap.fromJsonWithType();
 }
